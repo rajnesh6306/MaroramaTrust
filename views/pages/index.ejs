@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manorama Charitable Trust</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="page-bg">
+    <%- include('../partials/header') %>
+    <main>
+      <section class="hero">
+        <h1>Manorama Charitable Trust</h1>
+        <p>Together we can make a difference in people's lives.</p>
+        <div class="hero-actions">
+          <button id="donateNowBtn" class="btn white">Donate Now</button
+          ><a href="/medical" class="btn white">Medical Help</a>
+        </div>
+      </section>
+      <section class="about">
+        <h2>About Us</h2>
+        <p>
+          Manorama Charitable Trust is dedicated to helping underprivileged
+          communities through education, healthcare, and social support.
+        </p>
+      </section>
+      <section class="work">
+        <h2>Our Work</h2>
+        <div class="cards">
+          <div class="card">
+            <div>
+              <h3>Education Support</h3>
+              <p>
+                We support children by providing education materials and
+                learning opportunities.
+              </p>
+              <ul>
+                <li>Free Books</li>
+                <li>Scholarships</li>
+                <li>Digital Classes</li>
+                <li>Career Guidance</li>
+              </ul>
+            </div>
+            <a href="#" class="btn red">Learn More</a>
+          </div>
+          <div class="card">
+            <div>
+              <h3>Healthcare</h3>
+              <p>
+                We organize healthcare programs and free medical camps for poor
+                communities.
+              </p>
+              <ul>
+                <li>Free Medical Camps</li>
+                <li>Health Checkups</li>
+                <li>Medicine Support</li>
+                <li>Health Awareness</li>
+              </ul>
+            </div>
+            <a href="#" class="btn red">Learn More</a>
+          </div>
+          <div class="card">
+            <div>
+              <h3>Food Support</h3>
+              <p>
+                We help needy families by providing food and essential daily
+                supplies.
+              </p>
+              <ul>
+                <li>Food Distribution</li>
+                <li>Ration Kits</li>
+                <li>Festival Food Drives</li>
+                <li>Community Kitchens</li>
+              </ul>
+            </div>
+            <a href="#" class="btn red">Learn More</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %><%-
+    include('../partials/donation-modal') %>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

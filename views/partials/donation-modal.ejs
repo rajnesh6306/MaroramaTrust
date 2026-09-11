@@ -1,0 +1,95 @@
+<div id="donationModal" class="modal-backdrop" hidden>
+  <div
+    class="donation-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="donationTitle"
+  >
+    <div class="modal-header">
+      <h2 id="donationTitle">Donate Now</h2>
+      <button type="button" id="closeDonationModal" class="close-btn">
+        &times;
+      </button>
+    </div>
+    <form action="/donation" method="POST" class="form-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>Donor's Name *</label
+          ><input name="donorName" type="text" placeholder="Name" required />
+        </div>
+        <div class="field">
+          <label>Phone Number *</label
+          ><input
+            name="phoneNumber"
+            type="text"
+            inputmode="numeric"
+            maxlength="10"
+            placeholder="Phone number"
+            pattern="[0-9]{10}"
+            required
+          />
+        </div>
+      </div>
+      <hr />
+      <div class="form-grid">
+        <div class="field">
+          <label>Email Id</label
+          ><input name="email" type="email" placeholder="Email"  required />
+        </div>
+        <div class="field">
+          <label>Amount (₹) *</label
+          ><input
+            name="amount"
+            type="number"
+            min="1"
+            placeholder="Enter amount"
+            required
+          />
+        </div>
+      </div>
+      <hr />
+      <div class="field">
+        <label>Cause for Donation *</label
+        ><select name="causeForDonation" required>
+          <option>General Donation</option>
+          <option>Education Support</option>
+          <option>Healthcare Support</option>
+          <option>Food Support</option>
+          <option>Medical Help</option>
+          <option>Membership Charge</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Payment Mode *</label>
+        <div class="radio-row">
+          <label
+            ><input type="radio" name="paymentMode" value="Cash" required />
+            Cash</label
+          ><label
+            ><input type="radio" name="paymentMode" value="UPI" /> UPI</label
+          ><label
+            ><input type="radio" name="paymentMode" value="Card" /> Card</label
+          ><label
+            ><input type="radio" name="paymentMode" value="Net Banking" /> Net
+            Banking</label
+          >
+        </div>
+      </div>
+      <hr />
+      <div class="field">
+        <label>Message</label
+        ><textarea
+          name="message"
+          rows="3"
+          placeholder="Any message for the trust (optional)"
+        ></textarea>
+      </div>
+      <div class="actions">
+        <button type="button" id="cancelDonation" class="btn secondary">
+          Cancel</button
+        ><button type="submit" class="btn primary">Donate</button>
+      </div>
+    </form>
+  </div>
+</div>
