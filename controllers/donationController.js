@@ -9,9 +9,9 @@ function submitDonation(req, res) {
     const amount = Number(req.body?.amount);
 
     // Minimum donation amount validation
-    if (!Number.isFinite(amount) || amount < 100) {
+    if (!Number.isFinite(amount) || amount < 1) {
       return res.status(400).render("pages/form-error", {
-        message: "Minimum donation amount is ₹100.",
+        message: "Minimum donation amount is ₹1.",
         backUrl: "/",
       });
     }
