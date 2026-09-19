@@ -11,7 +11,7 @@
     >
 
     <title>
-        Donation Successful - Manorama Charitable Trust
+        Membership Successful - Manorama Charitable Trust
     </title>
 
     <link
@@ -158,6 +158,11 @@
             color: #198754;
         }
 
+        .membership-type {
+            color: #8e1717;
+            font-weight: 700;
+        }
+
         .email-status {
             padding: 14px;
 
@@ -277,24 +282,27 @@
         <!-- SUCCESS MESSAGE -->
 
         <h1>
-            Donation Successful
+            Membership Successful
         </h1>
 
 
         <p class="subtitle">
 
-            Thank you for your generous contribution
-            to <strong>Manorama Charitable Trust</strong>.
+            Thank you for becoming a member of
+            <strong>Manorama Charitable Trust</strong>.
 
-            Your payment has been successfully processed.
+            Your membership payment has been
+            successfully processed.
 
         </p>
 
 
-        <!-- PAYMENT DETAILS -->
+        <!-- MEMBERSHIP DETAILS -->
 
         <div class="payment-details">
 
+
+            <!-- TRANSACTION ID -->
 
             <div class="detail-row">
 
@@ -308,6 +316,8 @@
 
             </div>
 
+
+            <!-- PAYU PAYMENT ID -->
 
             <div class="detail-row">
 
@@ -324,10 +334,29 @@
             </div>
 
 
+            <!-- MEMBER NAME -->
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Member Name
+                </span>
+
+                <span class="detail-value">
+
+                    <%= donation.memberName || donation.donorName || "Not Available" %>
+
+                </span>
+
+            </div>
+
+
+            <!-- MEMBERSHIP AMOUNT -->
+
             <div class="detail-row amount-row">
 
                 <span class="detail-label">
-                    Donation Amount
+                    Membership Amount
                 </span>
 
                 <span class="detail-value amount-value">
@@ -339,30 +368,21 @@
             </div>
 
 
-            <div class="detail-row">
-
-                <span class="detail-label">
-                    Cause
-                </span>
-
-                <span class="detail-value">
-
-                    <%= donation.causeForDonation %>
-
-                </span>
-
-            </div>
-
+            <!-- MEMBERSHIP TYPE -->
 
             <div class="detail-row">
 
                 <span class="detail-label">
-                    Donor
+                    Membership Type
                 </span>
 
-                <span class="detail-value">
+                <span class="detail-value membership-type">
 
-                    <%= donation.donorName %>
+                    <%= donation.membershipType || (
+                        Number(donation.amount) >= 11000
+                            ? "Lifetime Member"
+                            : "1 Year Member"
+                    ) %>
 
                 </span>
 
@@ -378,8 +398,8 @@
 
             <div class="email-status">
 
-                📧 Your official donation receipt has been
-                sent to
+                📧 Your official membership certificate has
+                been sent to
 
                 <strong>
                     <%= donation.email %>
@@ -393,10 +413,11 @@
 
             <div class="email-status">
 
-                Your payment was successful, but the email
-                receipt could not be sent right now.
+                Your membership payment was successful,
+                but the email certificate could not be
+                sent right now.
 
-                Please download your receipt below.
+                Please download your certificate below.
 
             </div>
 
@@ -413,7 +434,7 @@
                 class="action-btn download-btn"
                 id="downloadReceipt"
             >
-                Download Receipt
+                Download Membership Certificate
             </a>
 
 
@@ -430,8 +451,9 @@
 
         <p class="note">
 
-            Your receipt is generated after successful
-            payment verification. Please keep it for your records.
+            Your membership certificate is generated after
+            successful payment verification. Please keep it
+            safely for your records.
 
         </p>
 
@@ -465,7 +487,7 @@ window.addEventListener("load", function () {
 
         link.setAttribute(
             "download",
-            "donation-receipt-<%= transactionId %>.pdf"
+            "membership-certificate-<%= transactionId %>.pdf"
         );
 
         link.style.display = "none";
@@ -475,7 +497,9 @@ window.addEventListener("load", function () {
         link.click();
 
         setTimeout(function () {
+
             document.body.removeChild(link);
+
         }, 1000);
 
     }, 1200);

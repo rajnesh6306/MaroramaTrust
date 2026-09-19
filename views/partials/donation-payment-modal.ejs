@@ -1,47 +1,70 @@
-<div id="donationModal" class="modal-backdrop" hidden>
+<div id="donationPaymentModal" class="modal-backdrop" hidden>
+
   <div
     class="donation-modal"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="membershipTitle"
+    aria-labelledby="donationTitle"
   >
-    <div class="modal-header">
-      <h2 id="membershipTitle">Become a Member</h2>
 
-      <button type="button" id="closeDonationModal" class="close-btn">
+    <div class="modal-header">
+
+      <h2 id="donationTitle">
+        Make a Donation
+      </h2>
+
+      <button
+        type="button"
+        id="closeDonationPaymentModal"
+        class="close-btn"
+      >
         &times;
       </button>
+
     </div>
 
-    <form action="/donation" method="POST" class="form-body">
 
-      <!-- =====================================================
-           MEMBER DETAILS
-      ====================================================== -->
+    <form
+      action="/donate"
+      method="POST"
+      class="form-body"
+    >
+
+      <!-- DONOR NAME -->
+
       <div class="field">
-        <label for="memberName">Member Name *</label>
+
+        <label for="donationDonorName">
+          Donor Name *
+        </label>
 
         <input
-          id="memberName"
-          name="memberName"
+          id="donationDonorName"
+          name="donorName"
           type="text"
-          placeholder="Enter member name"
+          placeholder="Enter donor name"
           maxlength="100"
           required
         />
+
       </div>
+
 
       <hr />
 
-      <!-- =====================================================
-           CONTACT DETAILS
-      ====================================================== -->
+
+      <!-- PHONE + EMAIL -->
+
       <div class="form-grid">
+
         <div class="field">
-          <label for="phoneNumber">Phone Number *</label>
+
+          <label for="donationPhoneNumber">
+            Phone Number *
+          </label>
 
           <input
-            id="phoneNumber"
+            id="donationPhoneNumber"
             name="phoneNumber"
             type="text"
             inputmode="numeric"
@@ -50,58 +73,70 @@
             pattern="[0-9]{10}"
             required
           />
+
         </div>
 
+
         <div class="field">
-          <label for="email">Email Id *</label>
+
+          <label for="donationEmail">
+            Email Id *
+          </label>
 
           <input
-            id="email"
+            id="donationEmail"
             name="email"
             type="email"
             placeholder="Email"
             required
           />
+
         </div>
+
       </div>
+
 
       <hr />
 
-      <!-- =====================================================
-           MEMBERSHIP AMOUNT
-      ====================================================== -->
+
+      <!-- DONATION AMOUNT -->
+
       <div class="field">
-        <label for="amount">Membership Amount (₹) *</label>
+
+        <label for="donationAmount">
+          Donation Amount (₹) *
+        </label>
 
         <input
-          id="amount"
+          id="donationAmount"
           name="amount"
           type="number"
           min="100"
           step="1"
-          placeholder="Enter amount"
+          placeholder="Enter donation amount"
           required
         />
 
-        <small id="minimumAmountText">
-          Minimum membership amount: ₹100
+        <small>
+          Minimum donation amount: ₹100
         </small>
 
-        <small>
-          ₹100 – ₹10,999: 1 Year Membership |
-          ₹11,000 or more: Lifetime Membership
-        </small>
       </div>
+
 
       <hr />
 
-      <!-- =====================================================
-           PAYMENT MODE
-      ====================================================== -->
+
+      <!-- PAYMENT MODE -->
+
       <div class="field">
-        <label>Payment Mode *</label>
+
+        <label>
+          Payment Mode *
+        </label>
 
         <div class="radio-row">
+
           <label>
             <input
               type="radio"
@@ -129,41 +164,56 @@
             />
             Net Banking
           </label>
+
         </div>
+
       </div>
+
 
       <hr />
 
-      <!-- =====================================================
-           MESSAGE
-      ====================================================== -->
+
+      <!-- MESSAGE -->
+
       <div class="field">
-        <label for="message">Message</label>
+
+        <label for="donationMessage">
+          Message
+        </label>
 
         <textarea
-          id="message"
+          id="donationMessage"
           name="message"
           rows="3"
           placeholder="Any message for the trust (optional)"
         ></textarea>
+
       </div>
 
-      <!-- =====================================================
-           ACTIONS
-      ====================================================== -->
+
+      <!-- ACTIONS -->
+
       <div class="actions">
+
         <button
           type="button"
-          id="cancelDonation"
+          id="cancelDonationPayment"
           class="btn secondary"
         >
           Cancel
         </button>
 
-        <button type="submit" class="btn primary">
-          Become a Member
+        <button
+          type="submit"
+          class="btn primary"
+        >
+          Donate Now
         </button>
+
       </div>
+
     </form>
+
   </div>
+
 </div>

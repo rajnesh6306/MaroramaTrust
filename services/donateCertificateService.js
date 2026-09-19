@@ -14,6 +14,7 @@ const logoPath = path.join(
   "logo.jpeg"
 );
 
+
 // ============================================================
 // PAGE
 // ============================================================
@@ -22,6 +23,7 @@ const PAGE = {
   width: 841.89,
   height: 595.28,
 };
+
 
 // ============================================================
 // COLORS
@@ -35,6 +37,7 @@ const COLORS = {
   lightGold: "#d2a45c",
   muted: "#555555",
 };
+
 
 // ============================================================
 // SAFE VALUE
@@ -52,6 +55,7 @@ function safe(value, fallback = "Not Provided") {
   return String(value).trim();
 }
 
+
 // ============================================================
 // TRUNCATE
 // ============================================================
@@ -65,6 +69,7 @@ function truncate(value, maxLength) {
 
   return text.substring(0, maxLength - 3) + "...";
 }
+
 
 // ============================================================
 // DATE
@@ -80,33 +85,18 @@ function getDate(value) {
   return date;
 }
 
+
 function formatDate(value) {
-  return getDate(value).toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+  return getDate(value).toLocaleDateString(
+    "en-IN",
+    {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }
+  );
 }
 
-// ============================================================
-// VALID TILL
-// ============================================================
-
-function getValidTill(value, membershipType) {
-  if (
-    String(membershipType || "").toLowerCase() ===
-    "lifetime member"
-  ) {
-    return "Lifetime";
-  }
-
-  const date = getDate(value);
-
-  date.setFullYear(date.getFullYear() + 1);
-  date.setDate(date.getDate() - 1);
-
-  return formatDate(date);
-}
 
 // ============================================================
 // AMOUNT
@@ -119,11 +109,15 @@ function formatAmount(value) {
     return "0.00";
   }
 
-  return amount.toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  return amount.toLocaleString(
+    "en-IN",
+    {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }
+  );
 }
+
 
 // ============================================================
 // NUMBER TO WORDS
@@ -232,11 +226,16 @@ function numberToWordsIndian(number) {
   return `${convert(num)} Rupees Only`;
 }
 
+
 // ============================================================
 // CERTIFICATE NUMBER
 // ============================================================
 
 function generateCertificateNumber(data) {
+  if (data.certificateNumber) {
+    return safe(data.certificateNumber);
+  }
+
   if (data.receiptNumber) {
     return safe(data.receiptNumber);
   }
@@ -251,31 +250,18 @@ function generateCertificateNumber(data) {
     .slice(-10);
 
   if (cleanId) {
-    return `MCT${cleanId.toUpperCase()}`;
+    return `MCTD${cleanId.toUpperCase()}`;
   }
 
-  return `MCT${Date.now()}`;
+  return `MCTD${Date.now()}`;
 }
 
-// ============================================================
-// SINGLE MEMBER
-// ============================================================
-
-function getMemberName(data) {
-  const memberName = String(
-    data.memberName ||
-      data.donorName ||
-      ""
-  ).trim();
-
-  return memberName || "Member";
-}
 
 // ============================================================
 // MAIN FUNCTION
 // ============================================================
 
-function generateDonationReceipt(data) {
+function generateDonationCertificate(data) {
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument({
@@ -286,16 +272,16 @@ function generateDonationReceipt(data) {
 
         info: {
           Title:
-            "Membership Certificate - Manorama Charitable Trust",
+            "Donation Certificate - Manorama Charitable Trust",
 
           Author:
             "Manorama Charitable Trust",
 
           Subject:
-            "Membership Certificate",
+            "Donation Certificate",
 
           Keywords:
-            "Membership Certificate, Manorama Charitable Trust",
+            "Donation Certificate, Manorama Charitable Trust",
         },
       });
 
@@ -306,12 +292,129 @@ function generateDonationReceipt(data) {
       });
 
       doc.on("end", () => {
-        resolve(Buffer.concat(chunks));
+        try {
+          const pdfBuffer = Buffer.concat(chunks);
+
+          // ==================================================
+          // CERTIFICATE NUMBER
+          // ==================================================
+
+          const certificateNumber =
+            generateCertificateNumber(data);
+
+
+          // ==================================================
+          // RECEIPTS DIRECTORY
+          // ==================================================
+
+          const receiptsDir = path.join(
+            __dirname,
+            "..",
+            "data",
+            "receipts"
+          );
+
+          if (!fs.existsSync(receiptsDir)) {
+            fs.mkdirSync(
+              receiptsDir,
+              {
+                recursive: true,
+              }
+            );
+          }
+
+
+          // ==================================================
+          // TRANSACTION ID
+          // ==================================================
+
+          const transactionId = String(
+            data.txnid ||
+            data.transactionId ||
+            Date.now()
+          ).replace(
+            /[^A-Za-z0-9_-]/g,
+            "_"
+          );
+
+
+          // ==================================================
+          // FILE NAME
+          // ==================================================
+
+          const fileName =
+            `donation-certificate-${transactionId}.pdf`;
+
+          const filePath = path.join(
+            receiptsDir,
+            fileName
+          );
+
+
+          // ==================================================
+          // SAVE PDF
+          // ==================================================
+
+          fs.writeFileSync(
+            filePath,
+            pdfBuffer
+          );
+
+
+          // ==================================================
+          // LOG
+          // ==================================================
+
+          console.log(
+            "================================="
+          );
+
+          console.log(
+            "✅ Donation certificate generated"
+          );
+
+          console.log(
+            "📄 File:",
+            filePath
+          );
+
+          console.log(
+            "🆔 Certificate:",
+            certificateNumber
+          );
+
+          console.log(
+            "================================="
+          );
+
+
+          // ==================================================
+          // RETURN CERTIFICATE DETAILS
+          // ==================================================
+
+          resolve({
+            path: filePath,
+            filePath: filePath,
+            fileName: fileName,
+            certificateNumber:
+              certificateNumber,
+            buffer: pdfBuffer,
+          });
+
+        } catch (error) {
+          reject(error);
+        }
       });
+
 
       doc.on("error", (error) => {
         reject(error);
       });
+
+
+      // ======================================================
+      // EXISTING CERTIFICATE DESIGN
+      // ======================================================
 
       drawBackground(doc);
       drawBorder(doc);
@@ -324,11 +427,13 @@ function generateDonationReceipt(data) {
       drawBottomWave(doc);
 
       doc.end();
+
     } catch (error) {
       reject(error);
     }
   });
 }
+
 
 // ============================================================
 // BACKGROUND
@@ -344,6 +449,7 @@ function drawBackground(doc) {
     )
     .fill(COLORS.background);
 }
+
 
 // ============================================================
 // BORDER
@@ -390,6 +496,7 @@ function drawBorder(doc) {
     .lineWidth(0.7)
     .stroke(COLORS.lightGold);
 }
+
 
 // ============================================================
 // TOP TAGLINES
@@ -461,6 +568,7 @@ function drawTopTaglines(doc) {
     );
 }
 
+
 // ============================================================
 // LOGO
 // ============================================================
@@ -492,6 +600,7 @@ function drawLogo(doc) {
   }
 }
 
+
 // ============================================================
 // TITLE
 // ============================================================
@@ -502,7 +611,7 @@ function drawTitle(doc) {
     .fontSize(38)
     .fillColor(COLORS.darkRed)
     .text(
-      "Membership Certificate",
+      "Donation Certificate",
       170,
       202,
       {
@@ -532,27 +641,23 @@ function drawTitle(doc) {
     );
 }
 
+
 // ============================================================
 // MAIN CONTENT
 // ============================================================
 
 function drawMainContent(doc, data) {
-  const memberName =
-    getMemberName(data);
-
-  const membershipType =
-    safe(
-      data.membershipType,
-      Number(data.amount) >= 11000
-        ? "Lifetime Member"
-        : "1 Year Member"
-    );
+  const donorName = safe(
+    data.donorName,
+    "Donor"
+  );
 
   const amount =
     Number(data.amount) || 0;
 
   const amountWords =
     numberToWordsIndian(amount);
+
 
   // ----------------------------------------------------------
   // Intro
@@ -572,8 +677,9 @@ function drawMainContent(doc, data) {
       }
     );
 
+
   // ----------------------------------------------------------
-  // Member Name
+  // Donor Name
   // ----------------------------------------------------------
 
   doc
@@ -581,7 +687,10 @@ function drawMainContent(doc, data) {
     .fontSize(25)
     .fillColor(COLORS.darkRed)
     .text(
-      truncate(memberName, 45),
+      truncate(
+        donorName,
+        45
+      ),
       145,
       299,
       {
@@ -591,8 +700,9 @@ function drawMainContent(doc, data) {
       }
     );
 
+
   // ----------------------------------------------------------
-  // Membership Statement
+  // Donation Statement
   // ----------------------------------------------------------
 
   doc
@@ -600,7 +710,7 @@ function drawMainContent(doc, data) {
     .fontSize(12.5)
     .fillColor(COLORS.dark)
     .text(
-      "has become a valued member of",
+      "has generously contributed to",
       185,
       342,
       {
@@ -623,31 +733,19 @@ function drawMainContent(doc, data) {
       }
     );
 
+
+  // ----------------------------------------------------------
+  // Appreciation
+  // ----------------------------------------------------------
+
   doc
     .font("Times-Roman")
     .fontSize(11.5)
     .fillColor(COLORS.dark)
     .text(
-      `as a ${membershipType.toLowerCase()}.`,
+      "Your valuable support strengthens our efforts towards",
       185,
       384,
-      {
-        width: 470,
-        align: "center",
-      }
-    );
-
-  // ----------------------------------------------------------
-  // Membership appreciation
-  // ----------------------------------------------------------
-
-  doc
-    .font("Times-Roman")
-    .fontSize(11.5)
-    .text(
-      "Your support strengthens our efforts towards",
-      185,
-      411,
       {
         width: 470,
         align: "center",
@@ -658,15 +756,16 @@ function drawMainContent(doc, data) {
     .text(
       "a healthier, stronger and more compassionate society.",
       185,
-      429,
+      402,
       {
         width: 470,
         align: "center",
       }
     );
 
+
   // ----------------------------------------------------------
-  // Thank you
+  // Thank You
   // ----------------------------------------------------------
 
   doc
@@ -674,9 +773,9 @@ function drawMainContent(doc, data) {
     .fontSize(12.5)
     .fillColor(COLORS.darkRed)
     .text(
-      "Thank you for being a part of our mission",
+      "Thank you for your generous contribution",
       185,
-      452,
+      429,
       {
         width: 470,
         align: "center",
@@ -685,17 +784,18 @@ function drawMainContent(doc, data) {
 
   doc
     .text(
-      "for a better tomorrow.",
+      "towards our mission for a better tomorrow.",
       185,
-      469,
+      446,
       {
         width: 470,
         align: "center",
       }
     );
 
+
   // ----------------------------------------------------------
-  // Amount in words
+  // Amount in Words
   // ----------------------------------------------------------
 
   doc
@@ -703,18 +803,19 @@ function drawMainContent(doc, data) {
     .fontSize(7.2)
     .fillColor(COLORS.muted)
     .text(
-      `Membership Amount in Words: ${truncate(
+      `Donation Amount in Words: ${truncate(
         amountWords,
         68
       )}`,
       205,
-      493,
+      477,
       {
         width: 440,
         align: "center",
       }
     );
 }
+
 
 // ============================================================
 // INFORMATION BOX
@@ -724,7 +825,7 @@ function drawInformationBox(doc, data) {
   const certificateNo =
     generateCertificateNumber(data);
 
-  const membershipDate =
+  const donationDate =
     formatDate(data.paymentDate);
 
   const amount =
@@ -738,19 +839,20 @@ function drawInformationBox(doc, data) {
       "Online"
     );
 
-  const membershipType =
+  const transactionId =
     safe(
-      data.membershipType,
-      Number(data.amount) >= 11000
-        ? "Lifetime Member"
-        : "1 Year Member"
+      data.txnid ||
+      data.transactionId,
+      "N/A"
     );
 
-  const validTill =
-    getValidTill(
-      data.paymentDate,
-      membershipType
+  const paymentId =
+    safe(
+      data.mihpayid ||
+      data.payuPaymentId,
+      "N/A"
     );
+
 
   // ----------------------------------------------------------
   // Box
@@ -772,21 +874,25 @@ function drawInformationBox(doc, data) {
     .lineWidth(1)
     .stroke(COLORS.lightGold);
 
+
   // ----------------------------------------------------------
   // Rows
   // ----------------------------------------------------------
 
-  const labelX = boxX + 10;
-  const valueX = boxX + 91;
+  const labelX =
+    boxX + 10;
+
+  const valueX =
+    boxX + 91;
 
   const rows = [
     {
-      label: "Membership No.",
+      label: "Certificate No.",
       value: certificateNo,
     },
     {
-      label: "Membership Date",
-      value: membershipDate,
+      label: "Donation Date",
+      value: donationDate,
     },
     {
       label: "Amount",
@@ -797,12 +903,12 @@ function drawInformationBox(doc, data) {
       value: paymentMode,
     },
     {
-      label: "Membership",
-      value: membershipType,
+      label: "Transaction ID",
+      value: transactionId,
     },
     {
-      label: "Valid Till",
-      value: validTill,
+      label: "Payment ID",
+      value: paymentId,
     },
   ];
 
@@ -849,31 +955,8 @@ function drawInformationBox(doc, data) {
         );
     }
   );
-
-  // ----------------------------------------------------------
-  // Validity note
-  // ----------------------------------------------------------
-
-  const note =
-    membershipType ===
-    "Lifetime Member"
-      ? "Lifetime membership"
-      : "Valid for 1 Year from the date of issue";
-
-  doc
-    .font("Times-Italic")
-    .fontSize(6.3)
-    .fillColor(COLORS.muted)
-    .text(
-      note,
-      boxX + 5,
-      boxY + 108,
-      {
-        width: boxWidth - 10,
-        align: "center",
-      }
-    );
 }
+
 
 // ============================================================
 // RIGHT SIDE REGARDS
@@ -937,7 +1020,6 @@ function drawRegards(doc) {
     .lineWidth(0.7)
     .stroke(COLORS.darkRed);
 
-  // PDFKit-compatible diamond
   doc
     .moveTo(
       x + 93,
@@ -959,6 +1041,7 @@ function drawRegards(doc) {
     .fill(COLORS.darkRed);
 }
 
+
 // ============================================================
 // BOTTOM WAVE
 // ============================================================
@@ -966,7 +1049,10 @@ function drawRegards(doc) {
 function drawBottomWave(doc) {
   // Orange wave
   doc
-    .moveTo(42, 552)
+    .moveTo(
+      42,
+      552
+    )
     .bezierCurveTo(
       170,
       536,
@@ -991,14 +1077,24 @@ function drawBottomWave(doc) {
       842,
       520
     )
-    .lineTo(842, 596)
-    .lineTo(42, 596)
+    .lineTo(
+      842,
+      596
+    )
+    .lineTo(
+      42,
+      596
+    )
     .closePath()
     .fill(COLORS.orange);
 
+
   // White wave
   doc
-    .moveTo(42, 559)
+    .moveTo(
+      42,
+      559
+    )
     .bezierCurveTo(
       170,
       548,
@@ -1023,7 +1119,10 @@ function drawBottomWave(doc) {
       842,
       533
     )
-    .lineTo(842, 569)
+    .lineTo(
+      842,
+      569
+    )
     .bezierCurveTo(
       790,
       580,
@@ -1051,6 +1150,7 @@ function drawBottomWave(doc) {
     .closePath()
     .fill(COLORS.background);
 
+
   // Footer
   doc
     .font("Times-Bold")
@@ -1067,10 +1167,11 @@ function drawBottomWave(doc) {
     );
 }
 
+
 // ============================================================
 // EXPORT
 // ============================================================
 
 module.exports = {
-  generateDonationReceipt,
+  generateDonationCertificate,
 };

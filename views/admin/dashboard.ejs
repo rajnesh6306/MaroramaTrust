@@ -3,160 +3,774 @@
 
 <head>
 
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-    <title>
-        Admin Dashboard - Manorama Charitable Trust
-    </title>
+  <title>
+    Admin Dashboard - Manorama Charitable Trust
+  </title>
 
-    <link
-        rel="stylesheet"
-        href="/css/style.css"
-    >
+  <link
+    rel="stylesheet"
+    href="/css/style.css"
+  >
 
-    <style>
+  <style>
 
-        .admin-container {
-            width: 95%;
-            max-width: 1400px;
-            margin: 40px auto;
-        }
+    /* ========================================
+       RESET / BASE
+    ======================================== */
 
-        .admin-card {
-            background: white;
-            padding: 30px;
-            border-radius: 14px;
+    * {
+      box-sizing: border-box;
+    }
 
-            box-shadow:
-                0 10px 35px
-                rgba(0, 0, 0, 0.10);
+    body {
+      margin: 0;
+      color: #1f2937;
+    }
 
-            margin-bottom: 30px;
-        }
+    button,
+    input,
+    select {
+      font: inherit;
+    }
 
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
 
-        .admin-header h1 {
-            margin: 0;
-        }
+    /* ========================================
+       DASHBOARD WRAPPER
+    ======================================== */
 
-        .stats {
-            display: grid;
+    .dashboard-shell {
+      width: 94%;
+      max-width: 1500px;
+      margin: 28px auto 50px;
+    }
 
-            grid-template-columns:
-                repeat(2, minmax(180px, 1fr));
 
-            gap: 20px;
+    /* ========================================
+       TOP HEADER
+    ======================================== */
 
-            margin-top: 25px;
-        }
+    .dashboard-header {
+      background: #ffffff;
+      border: 1px solid #ececec;
+      border-radius: 18px;
+      padding: 22px 26px;
 
-        .stat-card {
-            padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-            border-radius: 10px;
+      gap: 20px;
 
-            background: #f5f7fa;
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.06);
 
-            text-align: center;
-        }
+      margin-bottom: 22px;
+    }
 
-        .stat-card h3 {
-            margin: 0 0 10px;
-        }
+    .dashboard-brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-        .stat-number {
-            font-size: 30px;
-            font-weight: bold;
-        }
+    .dashboard-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid #eee;
+    }
 
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-        }
+    .dashboard-brand h1 {
+      margin: 0;
+      font-size: 25px;
+      color: #8e1717;
+    }
 
-        table {
-            width: 100%;
+    .dashboard-brand p {
+      margin: 5px 0 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
 
-            border-collapse: collapse;
+    .dashboard-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-            min-width: 1000px;
-        }
+    .home-btn,
+    .logout-btn {
+      border: none;
+      text-decoration: none;
+      cursor: pointer;
 
-        th,
-        td {
-            padding: 12px;
+      border-radius: 9px;
 
-            border-bottom:
-                1px solid #ddd;
+      padding: 10px 16px;
 
-            text-align: left;
+      font-size: 14px;
+    }
 
-            vertical-align: top;
-        }
+    .home-btn {
+      background: #f5f5f5;
+      color: #333;
+    }
 
-        th {
-            background: #f5f5f5;
+    .logout-btn {
+      background: #8e1717;
+      color: #fff;
+    }
 
-            white-space: nowrap;
-        }
+    .home-btn:hover,
+    .logout-btn:hover {
+      opacity: 0.9;
+    }
 
-        td {
-            max-width: 250px;
 
-            word-break: break-word;
-        }
+    /* ========================================
+       WELCOME SECTION
+    ======================================== */
 
-        .status-success {
-            font-weight: bold;
-        }
+    .welcome-section {
+      margin: 8px 2px 22px;
+    }
 
-        .empty-message {
-            color: #666;
+    .welcome-section h2 {
+      margin: 0;
 
-            text-align: center;
+      font-size: 26px;
 
-            padding: 20px;
-        }
+      color: #222;
+    }
 
-        .logout-form {
-            margin: 0;
-        }
+    .welcome-section p {
+      margin: 6px 0 0;
 
-        .section-title {
-            margin-bottom: 20px;
-        }
+      color: #6b7280;
+    }
 
-        @media (max-width: 600px) {
 
-            .admin-container {
-                width: 92%;
+    /* ========================================
+       STATISTICS
+    ======================================== */
 
-                margin: 20px auto;
-            }
+    .stats-grid {
+      display: grid;
 
-            .admin-card {
-                padding: 20px;
-            }
+      grid-template-columns:
+        repeat(5, minmax(0, 1fr));
 
-            .stats {
-                grid-template-columns: 1fr;
-            }
+      gap: 16px;
 
-        }
+      margin-bottom: 24px;
+    }
 
-    </style>
+    .stat-card {
+      background: #fff;
+
+      border: 1px solid #ececec;
+
+      border-radius: 16px;
+
+      padding: 20px;
+
+      box-shadow:
+        0 6px 22px rgba(0, 0, 0, 0.05);
+
+      min-height: 135px;
+
+      position: relative;
+
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: "";
+
+      position: absolute;
+
+      right: -25px;
+      bottom: -30px;
+
+      width: 90px;
+      height: 90px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(244, 123, 0, 0.08);
+    }
+
+    .stat-label {
+      color: #6b7280;
+
+      font-size: 13px;
+
+      font-weight: 600;
+
+      margin-bottom: 12px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+
+      font-weight: 700;
+
+      color: #222;
+
+      line-height: 1.2;
+    }
+
+    .stat-subtitle {
+      margin-top: 8px;
+
+      color: #8b8b8b;
+
+      font-size: 12px;
+    }
+
+    .stat-icon {
+      position: absolute;
+
+      right: 17px;
+      top: 17px;
+
+      width: 38px;
+      height: 38px;
+
+      border-radius: 10px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background: #fff3e6;
+
+      font-size: 18px;
+    }
+
+
+    /* ========================================
+       CONTENT CARD
+    ======================================== */
+
+    .dashboard-card {
+      background: #ffffff;
+
+      border: 1px solid #ececec;
+
+      border-radius: 18px;
+
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.05);
+
+      margin-bottom: 24px;
+
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 22px 24px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 15px;
+
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .card-title h2 {
+      margin: 0;
+
+      font-size: 20px;
+
+      color: #222;
+    }
+
+    .card-title p {
+      margin: 5px 0 0;
+
+      color: #777;
+
+      font-size: 13px;
+    }
+
+
+    /* ========================================
+       FILTERS
+    ======================================== */
+
+    .filters {
+      padding: 16px 24px;
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(240px, 1fr)
+        180px
+        180px;
+
+      gap: 12px;
+
+      background: #fafafa;
+
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .filter-input,
+    .filter-select {
+      width: 100%;
+
+      border: 1px solid #ddd;
+
+      background: #fff;
+
+      border-radius: 9px;
+
+      padding: 10px 12px;
+
+      outline: none;
+
+      color: #333;
+
+      font-size: 13px;
+    }
+
+    .filter-input:focus,
+    .filter-select:focus {
+      border-color: #f47b00;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(244, 123, 0, 0.10);
+    }
+
+
+    /* ========================================
+       TABLE
+    ======================================== */
+
+    .table-scroll {
+      width: 100%;
+
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+
+      min-width: 1250px;
+
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      background: #fafafa;
+
+      color: #555;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.3px;
+
+      padding: 14px 16px;
+
+      text-align: left;
+
+      white-space: nowrap;
+
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .data-table td {
+      padding: 15px 16px;
+
+      border-bottom: 1px solid #f0f0f0;
+
+      vertical-align: top;
+
+      font-size: 13px;
+
+      color: #444;
+    }
+
+    .data-table tbody tr:hover {
+      background: #fffaf5;
+    }
+
+
+    /* ========================================
+       MEMBER / DONOR CELL
+    ======================================== */
+
+    .member-primary {
+      font-weight: 700;
+
+      color: #222;
+
+      margin-bottom: 4px;
+    }
+
+    .donor-primary {
+      font-weight: 700;
+
+      color: #222;
+
+      margin-bottom: 4px;
+    }
+
+
+    /* ========================================
+       AMOUNT
+    ======================================== */
+
+    .amount-cell {
+      font-size: 15px !important;
+
+      font-weight: 700;
+
+      color: #222 !important;
+
+      white-space: nowrap;
+    }
+
+
+    /* ========================================
+       BADGES
+    ======================================== */
+
+    .badge {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 5px;
+
+      padding: 5px 9px;
+
+      border-radius: 20px;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      white-space: nowrap;
+    }
+
+    .badge-success {
+      background: #eaf8ef;
+
+      color: #16803c;
+    }
+
+    .badge-lifetime {
+      background: #fff3df;
+
+      color: #a45b00;
+    }
+
+    .badge-year {
+      background: #edf4ff;
+
+      color: #2563a8;
+    }
+
+    .badge-donation {
+      background: #fff0e6;
+
+      color: #b45309;
+    }
+
+
+    /* ========================================
+       TRANSACTION
+    ======================================== */
+
+    .transaction-id {
+      font-family: monospace;
+
+      font-size: 11px;
+
+      color: #555;
+
+      word-break: break-all;
+
+      max-width: 170px;
+    }
+
+    .payu-id {
+      font-family: monospace;
+
+      font-size: 11px;
+
+      color: #777;
+
+      word-break: break-all;
+
+      max-width: 130px;
+    }
+
+
+    /* ========================================
+       DATE
+    ======================================== */
+
+    .date-main {
+      font-weight: 600;
+
+      color: #333;
+    }
+
+    .date-time {
+      margin-top: 3px;
+
+      color: #888;
+
+      font-size: 11px;
+    }
+
+
+    /* ========================================
+       CERTIFICATE BUTTON
+    ======================================== */
+
+    .certificate-btn {
+      display: inline-block;
+
+      text-decoration: none;
+
+      background: #8e1717;
+
+      color: white;
+
+      padding: 7px 11px;
+
+      border-radius: 7px;
+
+      font-size: 11px;
+
+      font-weight: 600;
+
+      white-space: nowrap;
+    }
+
+    .certificate-btn:hover {
+      opacity: 0.9;
+    }
+
+
+    /* ========================================
+       EMPTY STATE
+    ======================================== */
+
+    .empty-state {
+      padding: 50px 20px;
+
+      text-align: center;
+
+      color: #777;
+    }
+
+    .empty-icon {
+      font-size: 35px;
+
+      margin-bottom: 10px;
+    }
+
+    .empty-state h3 {
+      margin: 0 0 5px;
+
+      color: #333;
+    }
+
+    .empty-state p {
+      margin: 0;
+
+      font-size: 13px;
+    }
+
+
+    /* ========================================
+       MEDICAL TABLE
+    ======================================== */
+
+    .medical-table {
+      min-width: 1100px;
+    }
+
+    .sensitive-value {
+      font-family: monospace;
+
+      letter-spacing: 1px;
+
+      color: #666;
+    }
+
+
+    /* ========================================
+       SUMMARY MINI CARDS
+    ======================================== */
+
+    .summary-strip {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 15px;
+
+      padding: 20px 24px;
+
+      background: #fafafa;
+
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .summary-box {
+      background: #fff;
+
+      border: 1px solid #eeeeee;
+
+      border-radius: 10px;
+
+      padding: 14px;
+    }
+
+    .summary-box-label {
+      font-size: 12px;
+
+      color: #777;
+
+      margin-bottom: 6px;
+    }
+
+    .summary-box-value {
+      font-size: 20px;
+
+      font-weight: 700;
+
+      color: #222;
+    }
+
+
+    /* ========================================
+       FOOTER
+    ======================================== */
+
+    .dashboard-footer {
+      text-align: center;
+
+      color: #777;
+
+      font-size: 12px;
+
+      margin-top: 25px;
+    }
+
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
+
+    @media (max-width: 1200px) {
+
+      .stats-grid {
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+      }
+
+    }
+
+    @media (max-width: 800px) {
+
+      .dashboard-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
+      .dashboard-actions {
+        width: 100%;
+      }
+
+      .home-btn,
+      .logout-btn {
+        flex: 1;
+
+        text-align: center;
+      }
+
+      .stats-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-strip {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 520px) {
+
+      .dashboard-shell {
+        width: 94%;
+
+        margin-top: 15px;
+      }
+
+      .dashboard-header {
+        padding: 18px;
+      }
+
+      .dashboard-brand h1 {
+        font-size: 20px;
+      }
+
+      .dashboard-brand p {
+        font-size: 12px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-value {
+        font-size: 25px;
+      }
+
+      .card-header {
+        padding: 18px;
+      }
+
+      .filters {
+        padding: 14px;
+      }
+
+    }
+
+  </style>
 
 </head>
 
@@ -164,405 +778,1939 @@
 <body class="page-bg">
 
 
-<main class="admin-container">
+<main class="dashboard-shell">
 
 
-    <!-- ================================= -->
-    <!-- ADMIN HEADER -->
-    <!-- ================================= -->
+  <!-- ========================================
+       HEADER
+  ======================================== -->
 
-    <section class="admin-card">
+  <header class="dashboard-header">
 
-        <div class="admin-header">
+    <div class="dashboard-brand">
 
-            <div>
+      <img
+        src="/images/logo.jpeg"
+        alt="Manorama Charitable Trust"
+        class="dashboard-logo"
+      >
 
-                <h1>
-                    Admin Dashboard
-                </h1>
+      <div>
 
-                <p>
-                    Manorama Charitable Trust
-                </p>
+        <h1>
+          Manorama Charitable Trust
+        </h1>
 
-            </div>
+        <p>
+          Administration & Membership Management
+        </p>
 
-
-            <form
-                class="logout-form"
-                action="/admin/logout"
-                method="POST"
-            >
-
-                <button
-                    type="submit"
-                    class="btn red"
-                >
-                    Logout
-                </button>
-
-            </form>
-
-        </div>
-
-
-        <!-- ================================= -->
-        <!-- STATISTICS -->
-        <!-- ================================= -->
-
-        <div class="stats">
-
-            <div class="stat-card">
-
-                <h3>
-                    Donations
-                </h3>
-
-                <div class="stat-number">
-                    <%= donationCount %>
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <h3>
-                    Medical Requests
-                </h3>
-
-                <div class="stat-number">
-                    <%= medicalCount %>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ================================= -->
-    <!-- DONATION RECORDS -->
-    <!-- ================================= -->
-
-    <section class="admin-card">
-
-        <h2 class="section-title">
-            Donation Records
-        </h2>
-
-
-        <% if (donations.length === 0) { %>
-
-            <p class="empty-message">
-                No donation records found.
-            </p>
-
-        <% } else { %>
-
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>#</th>
-
-                            <th>
-                                Donor Name
-                            </th>
-
-                            <th>
-                                Phone
-                            </th>
-
-                            <th>
-                                Email
-                            </th>
-
-                            <th>
-                                Amount
-                            </th>
-
-                            <th>
-                                Cause
-                            </th>
-
-                            <th>
-                                Payment Mode
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                            <th>
-                                Transaction ID
-                            </th>
-
-                            <th>
-                                PayU Payment ID
-                            </th>
-
-                            <th>
-                                Message
-                            </th>
-
-                            <th>
-                                Payment Date
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        <% donations.forEach((donation, index) => { %>
-
-                            <tr>
-
-                                <td>
-                                    <%= index + 1 %>
-                                </td>
-
-
-                                <td>
-                                    <%= donation.donorName || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= donation.phoneNumber || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= donation.email || "-" %>
-                                </td>
-
-
-                                <td>
-                                    ₹ <%= donation.amount || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= donation.causeForDonation || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= donation.paymentMode || "-" %>
-                                </td>
-
-
-                                <td class="status-success">
-
-                                    <%= donation.paymentStatus || "-" %>
-
-                                </td>
-
-
-                                <td>
-                                    <%= donation.transactionId || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= donation.payuPaymentId || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= donation.message || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= donation.paymentDate || "-" %>
-                                </td>
-
-                            </tr>
-
-                        <% }) %>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-        <% } %>
-
-    </section>
-
-
-
-    <!-- ================================= -->
-    <!-- MEDICAL RECORDS -->
-    <!-- ================================= -->
-
-    <section class="admin-card">
-
-        <h2 class="section-title">
-            Medical Records
-        </h2>
-
-
-        <% if (medicalRecords.length === 0) { %>
-
-            <p class="empty-message">
-                No medical records found.
-            </p>
-
-        <% } else { %>
-
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>#</th>
-
-                            <th>
-                                Patient Name
-                            </th>
-
-                            <th>
-                                Aadhaar Number
-                            </th>
-
-                            <th>
-                                Date of Birth
-                            </th>
-
-                            <th>
-                                Reference Name
-                            </th>
-
-                            <th>
-                                Phone
-                            </th>
-
-                            <th>
-                                Email
-                            </th>
-
-                            <th>
-                                Disease
-                            </th>
-
-                            <th>
-                                Hospital
-                            </th>
-
-                            <th>
-                                Registration Number
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        <% medicalRecords.forEach((record, index) => { %>
-
-                            <tr>
-
-                                <td>
-                                    <%= index + 1 %>
-                                </td>
-
-
-                                <td>
-                                    <%= record.patientName || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= record.aadharNumber || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= record.dateBirth || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= record.patientReferenceName || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= record.patientPhoneNumber || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= record.patientEmail || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= record.nameDiseases || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= record.hospitalName || "-" %>
-                                </td>
-
-
-                                <td>
-                                    <%= record.referenceRegistrationNumber || "-" %>
-                                </td>
-
-                            </tr>
-
-                        <% }) %>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-        <% } %>
-
-    </section>
-
-
-
-    <!-- ================================= -->
-    <!-- HOME -->
-    <!-- ================================= -->
-
-    <div style="text-align: center;">
-
-        <a href="/">
-            Back to Home
-        </a>
+      </div>
 
     </div>
 
 
+    <div class="dashboard-actions">
+
+      <a
+        href="/"
+        class="home-btn"
+      >
+        ← Home
+      </a>
+
+      <form
+        action="/admin/logout"
+        method="POST"
+        style="margin:0;"
+      >
+
+        <button
+          type="submit"
+          class="logout-btn"
+        >
+          Logout
+        </button>
+
+      </form>
+
+    </div>
+
+  </header>
+
+
+  <!-- ========================================
+       WELCOME
+  ======================================== -->
+
+  <section class="welcome-section">
+
+    <h2>
+      Admin Dashboard
+    </h2>
+
+    <p>
+      Monitor memberships, donations, payments and medical requests.
+    </p>
+
+  </section>
+
+
+  <!-- ========================================
+       MAIN STATISTICS
+  ======================================== -->
+
+  <section class="stats-grid">
+
+
+    <!-- TOTAL MEMBERS -->
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        👥
+      </div>
+
+      <div class="stat-label">
+        Total Members
+      </div>
+
+      <div class="stat-value">
+        <%= totalMembers %>
+      </div>
+
+      <div class="stat-subtitle">
+        Successful membership transactions
+      </div>
+
+    </div>
+
+
+    <!-- MEMBERSHIP COLLECTION -->
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        ₹
+      </div>
+
+      <div class="stat-label">
+        Membership Collection
+      </div>
+
+      <div class="stat-value">
+        ₹<%= Number(
+          membershipCollection || 0
+        ).toLocaleString("en-IN") %>
+      </div>
+
+      <div class="stat-subtitle">
+        From successful memberships
+      </div>
+
+    </div>
+
+
+    <!-- DONATION COUNT -->
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        ❤️
+      </div>
+
+      <div class="stat-label">
+        Total Donations
+      </div>
+
+      <div class="stat-value">
+        <%= donationCount %>
+      </div>
+
+      <div class="stat-subtitle">
+        Successful donation payments
+      </div>
+
+    </div>
+
+
+    <!-- DONATION COLLECTION -->
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        💰
+      </div>
+
+      <div class="stat-label">
+        Donation Collection
+      </div>
+
+      <div class="stat-value">
+        ₹<%= Number(
+          donationCollection || 0
+        ).toLocaleString("en-IN") %>
+      </div>
+
+      <div class="stat-subtitle">
+        From successful donations
+      </div>
+
+    </div>
+
+
+    <!-- TOTAL COLLECTION -->
+
+    <div class="stat-card">
+
+      <div class="stat-icon">
+        📊
+      </div>
+
+      <div class="stat-label">
+        Total Collection
+      </div>
+
+      <div class="stat-value">
+        ₹<%= Number(
+          totalCollection || 0
+        ).toLocaleString("en-IN") %>
+      </div>
+
+      <div class="stat-subtitle">
+        Membership + Donations
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================
+       MEMBERSHIP SUMMARY
+  ======================================== -->
+
+  <section class="dashboard-card">
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        <h2>
+          Membership Summary
+        </h2>
+
+        <p>
+          Current successful membership breakdown
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-strip">
+
+      <div class="summary-box">
+
+        <div class="summary-box-label">
+          Total Memberships
+        </div>
+
+        <div class="summary-box-value">
+          <%= membershipCount %>
+        </div>
+
+      </div>
+
+
+      <div class="summary-box">
+
+        <div class="summary-box-label">
+          Lifetime Memberships
+        </div>
+
+        <div class="summary-box-value">
+          <%= lifetimeMemberships %>
+        </div>
+
+      </div>
+
+
+      <div class="summary-box">
+
+        <div class="summary-box-label">
+          1 Year Memberships
+        </div>
+
+        <div class="summary-box-value">
+          <%= oneYearMemberships %>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================
+       MEMBERSHIP PAYMENTS
+  ======================================== -->
+
+  <section class="dashboard-card">
+
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        <h2>
+          Membership Payments
+        </h2>
+
+        <p>
+          Verified membership transactions
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- FILTERS -->
+
+    <div class="filters">
+
+      <input
+        type="search"
+        id="membershipSearch"
+        class="filter-input"
+        placeholder="Search member, phone, email or transaction ID..."
+      >
+
+
+      <select
+        id="membershipPaymentModeFilter"
+        class="filter-select"
+      >
+
+        <option value="">
+          All Payment Modes
+        </option>
+
+        <option value="UPI">
+          UPI
+        </option>
+
+        <option value="Card">
+          Card
+        </option>
+
+        <option value="Net Banking">
+          Net Banking
+        </option>
+
+      </select>
+
+
+      <select
+        id="membershipTypeFilter"
+        class="filter-select"
+      >
+
+        <option value="">
+          All Memberships
+        </option>
+
+        <option value="Lifetime Member">
+          Lifetime Member
+        </option>
+
+        <option value="1 Year Member">
+          1 Year Member
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <% if (
+      !memberships ||
+      memberships.length === 0
+    ) { %>
+
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          👥
+        </div>
+
+        <h3>
+          No Membership Records
+        </h3>
+
+        <p>
+          Successful membership payments will appear here.
+        </p>
+
+      </div>
+
+
+    <% } else { %>
+
+
+      <div class="table-scroll">
+
+        <table class="data-table">
+
+          <thead>
+
+            <tr>
+
+              <th>#</th>
+
+              <th>Member</th>
+
+              <th>Contact</th>
+
+              <th>Amount</th>
+
+              <th>Membership</th>
+
+              <th>Payment</th>
+
+              <th>Status</th>
+
+              <th>Transaction</th>
+
+              <th>Payment Date</th>
+
+              <th>Certificate</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="membershipTableBody"
+          >
+
+
+            <% memberships.forEach(
+              (membership, index) => {
+            %>
+
+
+              <tr
+                class="membership-row"
+
+                data-payment-mode="<%=
+                  membership.paymentMode || ''
+                %>"
+
+                data-membership-type="<%=
+                  membership.membershipType || ''
+                %>"
+
+                data-search="<%=
+                  [
+                    membership.memberName || '',
+                    membership.donorName || '',
+                    membership.phoneNumber || '',
+                    membership.email || '',
+                    membership.transactionId || '',
+                    membership.payuPaymentId || ''
+                  ]
+                    .join(' ')
+                    .toLowerCase()
+                %>"
+              >
+
+
+                <!-- NUMBER -->
+
+                <td>
+                  <strong>
+                    <%= index + 1 %>
+                  </strong>
+                </td>
+
+
+                <!-- MEMBER -->
+
+                <td>
+
+                  <div class="member-primary">
+
+                    <%= membership.memberName ||
+                        membership.donorName ||
+                        "-" %>
+
+                  </div>
+
+                  <span class="badge badge-year">
+
+                    1 Member
+
+                  </span>
+
+                </td>
+
+
+                <!-- CONTACT -->
+
+                <td>
+
+                  <div>
+
+                    <strong>
+                      Phone:
+                    </strong>
+
+                    <%= membership.phoneNumber ||
+                        "-" %>
+
+                  </div>
+
+
+                  <div
+                    style="margin-top:5px;"
+                  >
+
+                    <strong>
+                      Email:
+                    </strong>
+
+                    <%= membership.email ||
+                        "-" %>
+
+                  </div>
+
+                </td>
+
+
+                <!-- AMOUNT -->
+
+                <td class="amount-cell">
+
+                  ₹<%= Number(
+                    membership.amount || 0
+                  ).toLocaleString(
+                    "en-IN",
+                    {
+                      minimumFractionDigits: 2
+                    }
+                  ) %>
+
+                </td>
+
+
+                <!-- MEMBERSHIP TYPE -->
+
+                <td>
+
+                  <% if (
+                    String(
+                      membership.membershipType
+                    ).toLowerCase() ===
+                    "lifetime member"
+                  ) { %>
+
+
+                    <span
+                      class="badge badge-lifetime"
+                    >
+                      ♾ Lifetime
+                    </span>
+
+
+                  <% } else { %>
+
+
+                    <span
+                      class="badge badge-year"
+                    >
+                      1 Year
+                    </span>
+
+
+                  <% } %>
+
+                </td>
+
+
+                <!-- PAYMENT -->
+
+                <td>
+
+                  <strong>
+                    <%= membership.paymentMode ||
+                        "Online" %>
+                  </strong>
+
+                </td>
+
+
+                <!-- STATUS -->
+
+                <td>
+
+                  <span
+                    class="badge badge-success"
+                  >
+
+                    ●
+                    <%= membership.paymentStatus ||
+                        "SUCCESS" %>
+
+                  </span>
+
+                </td>
+
+
+                <!-- TRANSACTION -->
+
+                <td>
+
+                  <div class="transaction-id">
+
+                    <%= membership.transactionId ||
+                        "-" %>
+
+                  </div>
+
+
+                  <% if (
+                    membership.payuPaymentId
+                  ) { %>
+
+
+                    <div
+                      class="payu-id"
+                      style="margin-top:7px;"
+                    >
+
+                      PayU:
+                      <%= membership.payuPaymentId %>
+
+                    </div>
+
+
+                  <% } %>
+
+                </td>
+
+
+                <!-- DATE -->
+
+                <td>
+
+                  <div class="date-main">
+
+                    <%= membership.displayDate ||
+                        "-" %>
+
+                  </div>
+
+
+                  <% if (
+                    membership.displayTime
+                  ) { %>
+
+                    <div class="date-time">
+
+                      <%= membership.displayTime %>
+
+                    </div>
+
+                  <% } %>
+
+                </td>
+
+
+                <!-- CERTIFICATE -->
+
+                <td>
+
+                  <% if (
+                    membership.transactionId
+                  ) { %>
+
+
+                    <a
+                      href="/donation/receipt/<%= encodeURIComponent(
+                        membership.transactionId
+                      ) %>"
+
+                      class="certificate-btn"
+
+                      target="_blank"
+
+                      rel="noopener"
+                    >
+
+                      Certificate
+
+                    </a>
+
+
+                  <% } else { %>
+
+
+                    <span
+                      style="color:#999;"
+                    >
+                      -
+                    </span>
+
+
+                  <% } %>
+
+                </td>
+
+              </tr>
+
+
+            <% }) %>
+
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        id="noMembershipResults"
+        class="empty-state"
+        style="display:none;"
+      >
+
+        <div class="empty-icon">
+          🔎
+        </div>
+
+        <h3>
+          No matching records
+        </h3>
+
+        <p>
+          Try a different search or filter.
+        </p>
+
+      </div>
+
+
+    <% } %>
+
+  </section>
+
+
+  <!-- ========================================
+       DONATION SUMMARY
+  ======================================== -->
+
+  <section class="dashboard-card">
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        <h2>
+          Donation Summary
+        </h2>
+
+        <p>
+          Successful donations received by the Trust
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-strip">
+
+      <div class="summary-box">
+
+        <div class="summary-box-label">
+          Total Donations
+        </div>
+
+        <div class="summary-box-value">
+          <%= donationCount %>
+        </div>
+
+      </div>
+
+
+      <div class="summary-box">
+
+        <div class="summary-box-label">
+          Donation Collection
+        </div>
+
+        <div class="summary-box-value">
+
+          ₹<%= Number(
+            donationCollection || 0
+          ).toLocaleString("en-IN") %>
+
+        </div>
+
+      </div>
+
+
+      <div class="summary-box">
+
+        <div class="summary-box-label">
+          Today's Donations
+        </div>
+
+        <div class="summary-box-value">
+
+          <%= todayDonations %>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================
+       DONATIONS
+  ======================================== -->
+
+  <section class="dashboard-card">
+
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        <h2>
+          Donations
+        </h2>
+
+        <p>
+          Verified donation transactions
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- DONATION FILTERS -->
+
+    <div class="filters">
+
+      <input
+        type="search"
+        id="donationSearch"
+        class="filter-input"
+        placeholder="Search donor, phone, email or transaction ID..."
+      >
+
+
+      <select
+        id="donationPaymentModeFilter"
+        class="filter-select"
+      >
+
+        <option value="">
+          All Payment Modes
+        </option>
+
+        <option value="UPI">
+          UPI
+        </option>
+
+        <option value="Card">
+          Card
+        </option>
+
+        <option value="Net Banking">
+          Net Banking
+        </option>
+
+      </select>
+
+
+      <select
+        id="donationAmountFilter"
+        class="filter-select"
+      >
+
+        <option value="">
+          All Amounts
+        </option>
+
+        <option value="100">
+          ₹100+
+        </option>
+
+        <option value="500">
+          ₹500+
+        </option>
+
+        <option value="1000">
+          ₹1,000+
+        </option>
+
+        <option value="5000">
+          ₹5,000+
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <% if (
+      !donations ||
+      donations.length === 0
+    ) { %>
+
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ❤️
+        </div>
+
+        <h3>
+          No Donation Records
+        </h3>
+
+        <p>
+          Successful donations will appear here.
+        </p>
+
+      </div>
+
+
+    <% } else { %>
+
+
+      <div class="table-scroll">
+
+        <table class="data-table">
+
+          <thead>
+
+            <tr>
+
+              <th>#</th>
+
+              <th>Donor</th>
+
+              <th>Contact</th>
+
+              <th>Amount</th>
+
+              <th>Payment</th>
+
+              <th>Status</th>
+
+              <th>Transaction</th>
+
+              <th>Date</th>
+
+              <th>Certificate</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="donationTableBody"
+          >
+
+
+            <% donations.forEach(
+              (donation, index) => {
+            %>
+
+
+              <tr
+                class="donation-row"
+
+                data-payment-mode="<%=
+                  donation.paymentMode || ''
+                %>"
+
+                data-amount="<%=
+                  Number(donation.amount || 0)
+                %>"
+
+                data-search="<%=
+                  [
+                    donation.donorName || '',
+                    donation.phoneNumber || '',
+                    donation.email || '',
+                    donation.transactionId || '',
+                    donation.payuPaymentId || '',
+                    donation.message || ''
+                  ]
+                    .join(' ')
+                    .toLowerCase()
+                %>"
+              >
+
+
+                <!-- NUMBER -->
+
+                <td>
+
+                  <strong>
+                    <%= index + 1 %>
+                  </strong>
+
+                </td>
+
+
+                <!-- DONOR -->
+
+                <td>
+
+                  <div
+                    class="donor-primary"
+                  >
+
+                    <%= donation.donorName ||
+                        "-" %>
+
+                  </div>
+
+
+                  <span
+                    class="badge badge-donation"
+                  >
+
+                    Donation
+
+                  </span>
+
+
+                  <% if (
+                    donation.message
+                  ) { %>
+
+                    <div
+                      style="
+                        margin-top:7px;
+                        color:#777;
+                        font-size:11px;
+                        max-width:220px;
+                      "
+                    >
+
+                      <strong>
+                        Message:
+                      </strong>
+
+                      <%= donation.message %>
+
+                    </div>
+
+                  <% } %>
+
+                </td>
+
+
+                <!-- CONTACT -->
+
+                <td>
+
+                  <div>
+
+                    <strong>
+                      Phone:
+                    </strong>
+
+                    <%= donation.phoneNumber ||
+                        "-" %>
+
+                  </div>
+
+
+                  <div
+                    style="margin-top:5px;"
+                  >
+
+                    <strong>
+                      Email:
+                    </strong>
+
+                    <%= donation.email ||
+                        "-" %>
+
+                  </div>
+
+                </td>
+
+
+                <!-- AMOUNT -->
+
+                <td class="amount-cell">
+
+                  ₹<%= Number(
+                    donation.amount || 0
+                  ).toLocaleString(
+                    "en-IN",
+                    {
+                      minimumFractionDigits: 2
+                    }
+                  ) %>
+
+                </td>
+
+
+                <!-- PAYMENT -->
+
+                <td>
+
+                  <strong>
+
+                    <%= donation.paymentMode ||
+                        "Online" %>
+
+                  </strong>
+
+                </td>
+
+
+                <!-- STATUS -->
+
+                <td>
+
+                  <span
+                    class="badge badge-success"
+                  >
+
+                    ●
+                    <%= donation.paymentStatus ||
+                        "SUCCESS" %>
+
+                  </span>
+
+                </td>
+
+
+                <!-- TRANSACTION -->
+
+                <td>
+
+                  <div
+                    class="transaction-id"
+                  >
+
+                    <%= donation.transactionId ||
+                        "-" %>
+
+                  </div>
+
+
+                  <% if (
+                    donation.payuPaymentId
+                  ) { %>
+
+
+                    <div
+                      class="payu-id"
+                      style="margin-top:7px;"
+                    >
+
+                      PayU:
+                      <%= donation.payuPaymentId %>
+
+                    </div>
+
+
+                  <% } %>
+
+                </td>
+
+
+                <!-- DATE -->
+
+                <td>
+
+                  <div
+                    class="date-main"
+                  >
+
+                    <%= donation.displayDate ||
+                        "-" %>
+
+                  </div>
+
+
+                  <% if (
+                    donation.displayTime
+                  ) { %>
+
+                    <div
+                      class="date-time"
+                    >
+
+                      <%= donation.displayTime %>
+
+                    </div>
+
+                  <% } %>
+
+                </td>
+
+
+                <!-- DONATION CERTIFICATE -->
+
+                <td>
+
+                  <% if (
+                    donation.transactionId
+                  ) { %>
+
+
+                    <a
+                      href="/donate/certificate/<%= encodeURIComponent(
+                        donation.transactionId
+                      ) %>"
+
+                      class="certificate-btn"
+
+                      target="_blank"
+
+                      rel="noopener"
+                    >
+
+                      Certificate
+
+                    </a>
+
+
+                  <% } else { %>
+
+
+                    <span
+                      style="color:#999;"
+                    >
+                      -
+                    </span>
+
+
+                  <% } %>
+
+                </td>
+
+              </tr>
+
+
+            <% }) %>
+
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        id="noDonationResults"
+        class="empty-state"
+        style="display:none;"
+      >
+
+        <div class="empty-icon">
+          🔎
+        </div>
+
+        <h3>
+          No matching records
+        </h3>
+
+        <p>
+          Try a different search or filter.
+        </p>
+
+      </div>
+
+
+    <% } %>
+
+  </section>
+
+
+  <!-- ========================================
+       TODAY'S COLLECTION
+  ======================================== -->
+
+  <section class="dashboard-card">
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        <h2>
+          Today's Collection
+        </h2>
+
+        <p>
+          Today's successful payment summary
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary-strip">
+
+      <div class="summary-box">
+
+        <div class="summary-box-label">
+          Membership Collection
+        </div>
+
+        <div class="summary-box-value">
+
+          ₹<%= Number(
+            todayMembershipCollection || 0
+          ).toLocaleString("en-IN") %>
+
+        </div>
+
+      </div>
+
+
+      <div class="summary-box">
+
+        <div class="summary-box-label">
+          Donation Collection
+        </div>
+
+        <div class="summary-box-value">
+
+          ₹<%= Number(
+            todayDonationCollection || 0
+          ).toLocaleString("en-IN") %>
+
+        </div>
+
+      </div>
+
+
+      <div class="summary-box">
+
+        <div class="summary-box-label">
+          Total Today's Collection
+        </div>
+
+        <div class="summary-box-value">
+
+          ₹<%= Number(
+            todayCollection || 0
+          ).toLocaleString("en-IN") %>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================
+       MEDICAL REQUESTS
+  ======================================== -->
+
+  <section class="dashboard-card">
+
+
+    <div class="card-header">
+
+      <div class="card-title">
+
+        <h2>
+          Medical Requests
+        </h2>
+
+        <p>
+          Submitted medical assistance records
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          <%= medicalCount %>
+        </strong>
+
+        <span
+          style="
+            color:#777;
+            font-size:13px;
+          "
+        >
+          request(s)
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <% if (
+      !medicalRecords ||
+      medicalRecords.length === 0
+    ) { %>
+
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          🏥
+        </div>
+
+        <h3>
+          No Medical Requests
+        </h3>
+
+        <p>
+          Medical assistance requests will appear here.
+        </p>
+
+      </div>
+
+
+    <% } else { %>
+
+
+      <div class="table-scroll">
+
+        <table
+          class="data-table medical-table"
+        >
+
+          <thead>
+
+            <tr>
+
+              <th>#</th>
+
+              <th>Patient</th>
+
+              <th>Contact</th>
+
+              <th>Date of Birth</th>
+
+              <th>Reference</th>
+
+              <th>Disease</th>
+
+              <th>Hospital</th>
+
+              <th>Registration No.</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            <% medicalRecords.forEach(
+              (record, index) => {
+            %>
+
+
+              <tr>
+
+
+                <td>
+
+                  <strong>
+                    <%= index + 1 %>
+                  </strong>
+
+                </td>
+
+
+                <td>
+
+                  <strong>
+
+                    <%= record.patientName ||
+                        "-" %>
+
+                  </strong>
+
+
+                  <% if (
+                    record.aadharNumber
+                  ) { %>
+
+
+                    <div
+                      class="sensitive-value"
+                      style="margin-top:6px;"
+                    >
+
+                      Aadhaar:
+                      ******<%= String(
+                        record.aadharNumber
+                      ).slice(-4) %>
+
+                    </div>
+
+
+                  <% } %>
+
+                </td>
+
+
+                <td>
+
+                  <div>
+
+                    <strong>
+                      Phone:
+                    </strong>
+
+                    <%= record.patientPhoneNumber ||
+                        "-" %>
+
+                  </div>
+
+
+                  <div
+                    style="margin-top:5px;"
+                  >
+
+                    <strong>
+                      Email:
+                    </strong>
+
+                    <%= record.patientEmail ||
+                        "-" %>
+
+                  </div>
+
+                </td>
+
+
+                <td>
+
+                  <%= record.dateBirth ||
+                      "-" %>
+
+                </td>
+
+
+                <td>
+
+                  <strong>
+
+                    <%= record.patientReferenceName ||
+                        "-" %>
+
+                  </strong>
+
+                </td>
+
+
+                <td>
+
+                  <%= record.nameDiseases ||
+                      "-" %>
+
+                </td>
+
+
+                <td>
+
+                  <%= record.hospitalName ||
+                      "-" %>
+
+                </td>
+
+
+                <td>
+
+                  <%= record.referenceRegistrationNumber ||
+                      "-" %>
+
+                </td>
+
+
+              </tr>
+
+
+            <% }) %>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+    <% } %>
+
+  </section>
+
+
+  <!-- ========================================
+       FOOTER
+  ======================================== -->
+
+  <div class="dashboard-footer">
+
+    Manorama Charitable Trust
+
+    &nbsp;•&nbsp;
+
+    Admin Panel
+
+  </div>
+
+
 </main>
+
+
+<!-- ========================================
+     DASHBOARD FILTER SCRIPT
+======================================== -->
+
+<script>
+
+  (() => {
+
+    /* ========================================
+       MEMBERSHIP FILTER
+    ======================================== */
+
+    const membershipSearch =
+      document.getElementById(
+        "membershipSearch"
+      );
+
+    const membershipPaymentModeFilter =
+      document.getElementById(
+        "membershipPaymentModeFilter"
+      );
+
+    const membershipTypeFilter =
+      document.getElementById(
+        "membershipTypeFilter"
+      );
+
+    const membershipRows =
+      Array.from(
+        document.querySelectorAll(
+          ".membership-row"
+        )
+      );
+
+    const noMembershipResults =
+      document.getElementById(
+        "noMembershipResults"
+      );
+
+
+    function filterMemberships() {
+
+      const search =
+        String(
+          membershipSearch?.value || ""
+        )
+          .trim()
+          .toLowerCase();
+
+
+      const paymentMode =
+        String(
+          membershipPaymentModeFilter?.value ||
+          ""
+        )
+          .trim()
+          .toLowerCase();
+
+
+      const membershipType =
+        String(
+          membershipTypeFilter?.value ||
+          ""
+        )
+          .trim()
+          .toLowerCase();
+
+
+      let visibleCount = 0;
+
+
+      membershipRows.forEach(
+        (row) => {
+
+          const rowSearch =
+            String(
+              row.dataset.search || ""
+            ).toLowerCase();
+
+
+          const rowPaymentMode =
+            String(
+              row.dataset.paymentMode || ""
+            ).toLowerCase();
+
+
+          const rowMembershipType =
+            String(
+              row.dataset.membershipType || ""
+            ).toLowerCase();
+
+
+          const matchesSearch =
+            !search ||
+            rowSearch.includes(
+              search
+            );
+
+
+          const matchesPaymentMode =
+            !paymentMode ||
+            rowPaymentMode ===
+              paymentMode;
+
+
+          const matchesMembershipType =
+            !membershipType ||
+            rowMembershipType ===
+              membershipType;
+
+
+          const visible =
+            matchesSearch &&
+            matchesPaymentMode &&
+            matchesMembershipType;
+
+
+          row.style.display =
+            visible
+              ? ""
+              : "none";
+
+
+          if (visible) {
+            visibleCount++;
+          }
+
+        }
+      );
+
+
+      if (noMembershipResults) {
+
+        noMembershipResults.style.display =
+          membershipRows.length > 0 &&
+          visibleCount === 0
+            ? "block"
+            : "none";
+
+      }
+
+    }
+
+
+    membershipSearch?.addEventListener(
+      "input",
+      filterMemberships
+    );
+
+
+    membershipPaymentModeFilter
+      ?.addEventListener(
+        "change",
+        filterMemberships
+      );
+
+
+    membershipTypeFilter
+      ?.addEventListener(
+        "change",
+        filterMemberships
+      );
+
+
+    /* ========================================
+       DONATION FILTER
+    ======================================== */
+
+    const donationSearch =
+      document.getElementById(
+        "donationSearch"
+      );
+
+    const donationPaymentModeFilter =
+      document.getElementById(
+        "donationPaymentModeFilter"
+      );
+
+    const donationAmountFilter =
+      document.getElementById(
+        "donationAmountFilter"
+      );
+
+    const donationRows =
+      Array.from(
+        document.querySelectorAll(
+          ".donation-row"
+        )
+      );
+
+    const noDonationResults =
+      document.getElementById(
+        "noDonationResults"
+      );
+
+
+    function filterDonations() {
+
+      const search =
+        String(
+          donationSearch?.value || ""
+        )
+          .trim()
+          .toLowerCase();
+
+
+      const paymentMode =
+        String(
+          donationPaymentModeFilter?.value ||
+          ""
+        )
+          .trim()
+          .toLowerCase();
+
+
+      const minimumAmount =
+        Number(
+          donationAmountFilter?.value || 0
+        );
+
+
+      let visibleCount = 0;
+
+
+      donationRows.forEach(
+        (row) => {
+
+          const rowSearch =
+            String(
+              row.dataset.search || ""
+            ).toLowerCase();
+
+
+          const rowPaymentMode =
+            String(
+              row.dataset.paymentMode || ""
+            ).toLowerCase();
+
+
+          const rowAmount =
+            Number(
+              row.dataset.amount || 0
+            );
+
+
+          const matchesSearch =
+            !search ||
+            rowSearch.includes(
+              search
+            );
+
+
+          const matchesPaymentMode =
+            !paymentMode ||
+            rowPaymentMode ===
+              paymentMode;
+
+
+          const matchesAmount =
+            !minimumAmount ||
+            rowAmount >=
+              minimumAmount;
+
+
+          const visible =
+            matchesSearch &&
+            matchesPaymentMode &&
+            matchesAmount;
+
+
+          row.style.display =
+            visible
+              ? ""
+              : "none";
+
+
+          if (visible) {
+            visibleCount++;
+          }
+
+        }
+      );
+
+
+      if (noDonationResults) {
+
+        noDonationResults.style.display =
+          donationRows.length > 0 &&
+          visibleCount === 0
+            ? "block"
+            : "none";
+
+      }
+
+    }
+
+
+    donationSearch?.addEventListener(
+      "input",
+      filterDonations
+    );
+
+
+    donationPaymentModeFilter
+      ?.addEventListener(
+        "change",
+        filterDonations
+      );
+
+
+    donationAmountFilter
+      ?.addEventListener(
+        "change",
+        filterDonations
+      );
+
+  })();
+
+</script>
 
 
 </body>

@@ -73,6 +73,8 @@ app.use(
 
 const donationRoutes = require("./routes/donationRoutes");
 
+const donateRoutes = require("./routes/donateRoutes");
+
 const medicalRoutes = require("./routes/medicalRoutes");
 
 const adminRoutes = require("./routes/adminRoutes");
@@ -86,6 +88,8 @@ const systemRoutes = require("./routes/systemRoutes");
 // ========================================
 
 app.use("/donation", donationRoutes);
+
+app.use("/donate", donateRoutes);
 
 // ========================================
 // MEDICAL ROUTES
